@@ -19,8 +19,10 @@ const transferMoney = async (req, res) => {
         .json({ message: "Insufficient balance!", success: false });
     }
 
-    senderWallet.balance -= req.body.amountToSend;
-    recipientWallet.balance += req.body.amountToSend;
+    const amount = Number(req.body.amountToSend);
+    senderWallet.balance = Number(senderWallet.balance) - amount;
+    recipientWallet.balance = Number(recipientWallet.balance) + amount;
+
 
     await senderWallet.save();
     await recipientWallet.save();
